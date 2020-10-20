@@ -2,13 +2,25 @@
   "name": "lyrics-finder-context-api",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "antd": "^4.7.0",
+    "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
+    "immer": "^7.0.9",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.31",
+    "node-sass": "^4.14.1",
+    "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-scripts": "3.4.3"
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "use-immer": "^0.4.1",
+    "uuid": "^8.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,5 +42,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "less-loader": "^7.0.2",
+    "sass-loader": "^10.0.3",
+    "antd-scss-theme-plugin": "1.0.7",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-import": "1.2.0",
+    "cross-env": "^5.2.0",
+    "react-app-rewired": "1.2.9"
   }
 }
