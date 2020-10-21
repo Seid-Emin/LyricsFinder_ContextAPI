@@ -16,18 +16,18 @@ export const TrackInputs = () => {
         const {name, value} = e.target;
 
         setNewTrack(draft  => {
-            draft[name] = value;
-        })
+            draft.track[name] = value;
+            if (draft.track.track_id === '') {
+                draft.track.track_id = uuidv4();
+            }
+        });
     }
 
     const submitNewTrack = () => {
-        const addedTrack = {
-            track: {
-                ...newTrack,
-                track_id: uuidv4()
-            }
-        }
-        AddTrackAction(addedTrack);
+        setNewTrack(draft  => {
+            draft.track.track_id = '';
+        });
+        AddTrackAction(newTrack);
     }
 
     const { artist_name, track_name, album_name } = newTrack;
