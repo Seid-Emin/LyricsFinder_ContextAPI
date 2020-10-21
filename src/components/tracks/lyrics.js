@@ -24,18 +24,18 @@ export const Lyrics = ({ match }) => {
             .catch(error => {
                 console.log(error)
             });
-    }, [match])
+    }, [match]);
+
     const { track, lyrics } = lyricsState;
     if (track === 'undefined' || lyrics === 'undefined' || Object.keys(track).length === 0 || Object.keys(lyrics).length === 0) {
         return <Spinner/>
     } else {
         const { track_name, artist_name, album_id, primary_genres: { music_genre_list }, explicit } = track;
-        const { music_genre: { music_genre_name } } = music_genre_list[0]
         const { lyrics_body } = lyrics;
 
 
         return (
-            <><Link to='/' className='btn btn-sm mb-4'>Go Back</Link>
+            <><Link to='/' className='btn btn-sm btn-dark mb-4'>Go Back</Link>
                 {(track === 'undefined' || lyrics === 'undefined' || Object.keys(track).length === 0 || Object.keys(lyrics).length === 0)
                     ? <Spinner/>
                     : <>
@@ -52,7 +52,7 @@ export const Lyrics = ({ match }) => {
                                 <strong>Album ID</strong>: {album_id}
                             </li>
                             <li className="list-group-item">
-                                <strong>Song Genre</strong>: {music_genre_name}
+                                <strong>Song Genre</strong>: {music_genre_list[0] ? music_genre_list[0].music_genremusic_genre_name : 'Not presset'}
                             </li>
                             <li className="list-group-item">
                                 <strong>Explicit Words</strong>: {explicit === 0 ? 'No' : 'Yes'}

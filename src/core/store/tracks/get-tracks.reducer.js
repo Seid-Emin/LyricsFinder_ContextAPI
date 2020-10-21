@@ -7,6 +7,7 @@ export const getTracksAction = (dispatch) => {
 
     axios.get(`https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_API_V1}${process.env.REACT_APP_TRACKS_GET}&apikey=${process.env.REACT_APP_MM_KEY}`)
          .then(res => {
+             console.log(JSON.stringify(res.data.message.body.track_list))
              return dispatch({
                  type: GET_TRACKS,
                  payload: res.data.message.body.track_list

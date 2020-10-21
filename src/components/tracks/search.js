@@ -1,28 +1,16 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
-import { TracksContext } from '../../core/store/addTrack/+tracks-context'
+import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
 export const Search = () => {
     const [trackTitle, setTrackTitle] = useState('');
-    const { setState } = useContext(TracksContext);
+    const { actions: { SearchTracksAction } } = useContext(TracksContext);
 
-    const findTrack = (e) => {
+    const findTrack = async (e) => {
         e.preventDefault();
-
-        axios.get(`https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_API_V1}track.search?q_track=${trackTitle}&page_size=10&page=1&s_track_rating=desc&apikey=${process.env.REACT_APP_MM_KEY}`)
-             .then(res => {
-                 setState(prevState => {
-                     return {
-                         ...prevState,
-                         track_list: res.data.message.body.track_list
-                     }
-                 });
-                 setTrackTitle('')
-             })
-             .catch(error => {
-                 console.log(error);
-             })
+        const search = await SearchTracksAction(trackTitle);
+        setTrackTitle('');
     }
+
 
     return (
         <div className="card card-body mb-4 p-4">
@@ -40,7 +28,7 @@ export const Search = () => {
                         value={trackTitle}
                         onChange={(e) => setTrackTitle(e.target.value)}/>
                 </div>
-                <button className="btn btn-lg btn-block mb-5" type='submit'>Get Track Lyrics</button>
+                <button className="btn btn-lg btn-dark btn-block mb-5" type='submit'>Get Track Lyrics</button>
             </form>
         </div>
     );

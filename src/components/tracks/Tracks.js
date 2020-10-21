@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { TracksContext } from '../../core/store/addTrack/+tracks-context';
+import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
 import { Spinner } from '../layout/spinner';
 import { Track } from './track'
 
 export const Tracks = () => {
-    const { state: { track_list, heading }, actions: { GetTracksAction } } = useContext(TracksContext);
+    const { tracksState: { track_list, heading, searching }, actions: { GetTracksAction } } = useContext(TracksContext);
 
     // useEffect(() => {
     //     GetTracksAction();
@@ -14,14 +14,12 @@ export const Tracks = () => {
 
     return (
         <>
-            {track_list === 'undefined' && track_list.length === 0
+            <h3 className="text-center mb-4">{heading}</h3>
+            {track_list === 'undefined' || track_list.length === 0 || searching
                 ? <Spinner/>
-                : <>
-                    <h3 className="text-center mb-4">{heading}</h3>
-                    <div className="row">
-                        {track_list.map(({ track }) => <Track key={track.track_id} track={track}/>)}
-                    </div>
-                </>
+                : <div className="row">
+                    {track_list.map(({ track }) => <Track key={track.track_id} track={track}/>)}
+                </div>
             }
         </>
     )

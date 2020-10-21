@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { TracksContext } from '../../core/store/addTrack/+tracks-context';
+import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
 export const TrackInputs = () => {
     const { actions: {AddTrackAction} } = useContext(TracksContext);
@@ -29,7 +29,6 @@ export const TrackInputs = () => {
             }
         }
         AddTrackAction(addedTrack);
-        // dispatch({type: 'ADD_TRACK', payload: addedTrack});
     }
 
     const { artist_name, track_name, album_name } = newTrack;
@@ -40,24 +39,20 @@ export const TrackInputs = () => {
             <div className='input-group mb-3'>
                 <div className="input-group-prepend">
                     <input type='text'
-                           className='form-control input-group-text'
+                           className='form-control input-group-text mr-3'
                            value={artist_name}
                            name='artist_name'
                            onChange={inputChangeHandler}
                            placeholder='artist_name'/>
                 </div>
-            </div>
-            <div className='input-group mb-3'>
                 <div className="input-group-prepend">
                     <input type='text'
-                           className='form-control input-group-text'
+                           className='form-control input-group-text mr-3'
                            value={track_name}
                            name='track_name'
                            onChange={inputChangeHandler}
                            placeholder='track_name'/>
                 </div>
-            </div>
-            <div className='input-group mb-3'>
                 <div className="input-group-prepend">
                     <input type='text'
                            className='form-control input-group-text'

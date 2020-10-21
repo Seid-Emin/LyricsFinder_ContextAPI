@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import './App.scss';
 
-import { TracksProvider } from './core/store/addTrack/+tracks-context';
+import { TracksProvider } from './core/store/tracks/+tracks-context';
 import { Lyrics } from './components/tracks/lyrics';
 
 // import { PageHeader } from 'antd';
