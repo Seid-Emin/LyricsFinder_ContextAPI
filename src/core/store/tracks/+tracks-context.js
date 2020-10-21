@@ -1,5 +1,5 @@
-import React from 'react';
-import { useImmerReducer } from 'use-immer';
+import React, { useReducer } from 'react';
+// import { useImmerReducer } from 'use-immer';
 
 import { addTrackAction, addTracksReducer } from './add-track.reducer';
 import { getTracksAction, getTracksReducer } from './get-tracks.reducer';
@@ -380,26 +380,24 @@ const ACTION_HANDLERS = [
 ].reduce((acc, reducer) => ({ ...acc, [reducer.type]: reducer.handler }), {});
 
 
-export function tracksReducer(draft, action) {
+export function tracksReducer(state, action) {
     const addTrack = ACTION_HANDLERS[action.type];
 
     if (addTrack) {
-        return addTrack(draft, action);
+        return addTrack(state, action);
     }
-    // return;
+    return;
 }
 
 export const TracksProvider = ({ children }) => {
-    const [tracksState, dispatch] = useImmerReducer(tracksReducer, initialState);
+    const [tracksState, dispatch] = useReducer(tracksReducer, initialState);
 
     const actions =  {
-        AddTrackAction: (newTrack) => addTrackAction(dispatch, newTrack),
-        GetTracksAction: () => getTracksAction(dispatch),
-        DeleteTrackAction: (id) => deleteTrackAction(dispatch, id),
-        SearchTracksAction: (trackTitle) => searchTracksAction(dispatch, trackTitle)
+        AddTrackAction: (newTrack) => addTrackAction(dispatch, tracksState, newTrack),
+        GetTracksAction: () => getTracksAction(dispatch, tracksState),
+        DeleteTrackAction: (id) => deleteTrackAction(dispatch, tracksState, id),
+        SearchTracksAction: (trackTitle) => searchTracksAction(dispatch, tracksState, trackTitle)
     }
-
-
 
     return (
         <TracksContext.Provider value={{ tracksState, actions }}>

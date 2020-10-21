@@ -1,17 +1,21 @@
-import axios from 'axios';
+import produce from 'immer';
 
+import axios from 'axios';
 
 export const GET_TRACKS = 'GET_TRACKS';
 
-export const getTracksAction = (dispatch) => {
+export const getTracksAction = (dispatch, tracksState) => {
 
     axios.get(`https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_API_V1}${process.env.REACT_APP_TRACKS_GET}&apikey=${process.env.REACT_APP_MM_KEY}`)
          .then(res => {
-             console.log(JSON.stringify(res.data.message.body.track_list))
-             return dispatch({
+             const nextState = produce(tracksState, draft => {
+                 draft.track_list = res.data.message.body.track_list;
+             });
+
+             dispatch({
                  type: GET_TRACKS,
-                 payload: res.data.message.body.track_list
-             })
+                 payload: nextState
+             });
          })
          .catch(error => {
              console.log(error);
@@ -20,7 +24,7 @@ export const getTracksAction = (dispatch) => {
 
 export const getTracksReducer = {
     type: GET_TRACKS,
-    handler: (draft, action) => {
-        draft.track_list = action.payload;
+    handler: (state, action) => {
+        return action.payload;
     }
 }

@@ -1,15 +1,21 @@
+import produce from 'immer';
+
 export const DELETE_TRACK = 'DELETE_TRACK';
 
-export const deleteTrackAction = (dispatch, id) => {
-    return dispatch({
+export const deleteTrackAction = (dispatch, tracksState, id) => {
+    const nextState = produce(tracksState, draft => {
+        draft.track_list = draft.track_list.filter(({ track }) => track.track_id !== id);
+    });
+
+    dispatch({
         type: DELETE_TRACK,
-        payload: id
+        payload: nextState
     })
 }
 
 export const deleteTracksReducer = {
     type: DELETE_TRACK,
-    handler: (draft, action) => {
-        draft.track_list = draft.track_list.filter(({track}) => track.track_id !== action.payload )
+    handler: (state, action) => {
+        return action.payload;
     }
 }

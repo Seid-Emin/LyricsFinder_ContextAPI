@@ -1,13 +1,19 @@
 import axios from 'axios';
+import produce from 'immer';
 
 export const SEARCH_TRACK = 'SEARCH_TRACK';
 export const START_SEARCHING = 'START_SEARCHING';
 export const FINISHED_SEARCHING = 'FINISHED_SEARCHING';
 
-export const searchTracksAction = (dispatch, trackTitle) => {
+export const searchTracksAction = (dispatch, tracksState, trackTitle) => {
+    const nextState = produce(tracksState, draft => {
+        draft.searching = true;
+        draft.heading = `Searching for ${trackTitle}`;
+    });
+
     dispatch({
-        type: START_SEARCHING,
-        payload: { searching: true, heading:  trackTitle}
+        type: SEARCH_TRACK,
+        payload: nextState
     });
 
     axios.get(`https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_API_V1}track.search?q_track=${trackTitle}&page_size=10&page=1&s_track_rating=desc&apikey=${process.env.REACT_APP_MM_KEY}`,
@@ -17,13 +23,17 @@ export const searchTracksAction = (dispatch, trackTitle) => {
                 'API-Key': 'secret',
                 'Origin': 'X-Requested-With'
             }
-    })
+        })
          .then(res => {
-             return dispatch({
-                 type: SEARCH_TRACK,
-                 payload: { tracks_list: res.data.message.body.track_list, searching: false }
+             const fetcedState = produce(tracksState, draft => {
+                 draft.track_list = res.data.message.body.track_list;
+                 draft.searching = false;
              });
 
+             dispatch({
+                 type: SEARCH_TRACK,
+                 payload: fetcedState
+             });
          })
          .catch(error => {
              console.log(error);
@@ -32,16 +42,14 @@ export const searchTracksAction = (dispatch, trackTitle) => {
 
 export const searchTracksReducer = {
     type: SEARCH_TRACK,
-    handler: (draft, action) => {
-        draft.track_list = action.payload.tracks_list;
-        draft.searching= action.payload.searching;
+    handler: (state, action) => {
+        return action.payload;
     }
 }
 
 export const startSearchTracksReducer = {
     type: START_SEARCHING,
-    handler: (draft, action) => {
-        draft.searching= action.payload.searching;
-        draft.heading = `Searching for ${action.payload.heading}`;
+    handler: (state, action) => {
+        return action.payload;
     }
 }

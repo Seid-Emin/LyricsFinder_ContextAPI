@@ -5,9 +5,9 @@ export const Search = () => {
     const [trackTitle, setTrackTitle] = useState('');
     const { actions: { SearchTracksAction } } = useContext(TracksContext);
 
-    const findTrack = async (e) => {
+    const findTrack = (e) => {
         e.preventDefault();
-        const search = await SearchTracksAction(trackTitle);
+        SearchTracksAction(trackTitle);
         setTrackTitle('');
     }
 
