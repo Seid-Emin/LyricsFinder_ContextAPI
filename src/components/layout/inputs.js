@@ -1,21 +1,23 @@
-import React, { useContext, useState } from 'react';
-import {useImmer} from 'use-immer'
+import React, { useContext } from 'react';
+import { useImmer } from 'use-immer'
 import { v4 as uuidv4 } from 'uuid';
 import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
 export const TrackInputs = () => {
-    const { actions: {AddTrackAction} } = useContext(TracksContext);
+    const { actions: { AddTrackAction } } = useContext(TracksContext);
     const [newTrack, setNewTrack] = useImmer({
-        artist_name: '',
-        track_name: '',
-        album_name: '',
-        track_id: ''
+        track: {
+            artist_name: '',
+            track_name: '',
+            album_name: '',
+            track_id: ''
+        }
     });
 
     const inputChangeHandler = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
 
-        setNewTrack(draft  => {
+        setNewTrack(draft => {
             draft.track[name] = value;
             if (draft.track.track_id === '') {
                 draft.track.track_id = uuidv4();
@@ -24,7 +26,7 @@ export const TrackInputs = () => {
     }
 
     const submitNewTrack = () => {
-        setNewTrack(draft  => {
+        setNewTrack(draft => {
             draft.track.track_id = '';
         });
         AddTrackAction(newTrack);
