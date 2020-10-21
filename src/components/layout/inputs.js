@@ -3,36 +3,41 @@ import { useImmer } from 'use-immer'
 import { v4 as uuidv4 } from 'uuid';
 import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
+const initialNewTrackState = {
+    track: {
+        artist_name: '',
+        track_name: '',
+        album_name: '',
+        track_id: ''
+    }
+}
+
 export const TrackInputs = () => {
     const { actions: { AddTrackAction } } = useContext(TracksContext);
-    const [newTrack, setNewTrack] = useImmer({
-        track: {
-            artist_name: '',
-            track_name: '',
-            album_name: '',
-            track_id: ''
-        }
-    });
+    const [newTrack, setNewTrack] = useImmer(initialNewTrackState);
 
     const inputChangeHandler = (e) => {
         const { name, value } = e.target;
-
         setNewTrack(draft => {
             draft.track[name] = value;
-            if (draft.track.track_id === '') {
+            if (!draft.track.track_id) {
                 draft.track.track_id = uuidv4();
             }
         });
     }
 
     const submitNewTrack = () => {
-        setNewTrack(draft => {
-            draft.track.track_id = '';
-        });
-        AddTrackAction(newTrack);
+        const isAnyFieldTouched = Object.values(newTrack.track).filter(value => value !== '').length;
+
+        if (isAnyFieldTouched) {
+            AddTrackAction(newTrack);
+            setNewTrack(draft => {
+                draft.track = initialNewTrackState.track;
+            });
+        }
     }
 
-    const { artist_name, track_name, album_name } = newTrack;
+    const { artist_name, track_name, album_name } = newTrack.track;
 
 
     return (
