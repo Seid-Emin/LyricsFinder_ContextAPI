@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
+import {useImmer} from 'use-immer'
 import { v4 as uuidv4 } from 'uuid';
 import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
 export const TrackInputs = () => {
     const { actions: {AddTrackAction} } = useContext(TracksContext);
-    const [newTrack, setNewTrack] = useState({
+    const [newTrack, setNewTrack] = useImmer({
         artist_name: '',
         track_name: '',
         album_name: '',
@@ -13,11 +14,9 @@ export const TrackInputs = () => {
 
     const inputChangeHandler = (e) => {
         const {name, value} = e.target;
-        setNewTrack(prevState => {
-            return {
-                ...prevState,
-                [name]: value
-            }
+
+        setNewTrack(draft  => {
+            draft[name] = value;
         })
     }
 

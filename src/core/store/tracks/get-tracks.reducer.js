@@ -1,5 +1,4 @@
 import produce from 'immer';
-
 import axios from 'axios';
 
 export const GET_TRACKS = 'GET_TRACKS';

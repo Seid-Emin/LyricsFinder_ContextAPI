@@ -7,12 +7,10 @@ export const addTrackAction = (dispatch, tracksState, newTrack) => {
         draft.track_list.push(newTrack);
     })
 
-        return dispatch({
-            type: ADD_TRACK,
-            payload: nextState
-        })
-
-
+    return dispatch({
+        type: ADD_TRACK,
+        payload: nextState
+    })
 }
 
 export const addTracksReducer = {
