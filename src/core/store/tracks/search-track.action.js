@@ -1,10 +1,6 @@
 import axios from 'axios';
 import produce from 'immer';
 
-export const SEARCH_TRACK = 'SEARCH_TRACK';
-export const START_SEARCHING = 'START_SEARCHING';
-export const FINISHED_SEARCHING = 'FINISHED_SEARCHING';
-
 export const searchTracksAction = (dispatch, tracksState, trackTitle) => {
     const nextState = produce(tracksState, draft => {
         draft.searching = true;
@@ -12,7 +8,6 @@ export const searchTracksAction = (dispatch, tracksState, trackTitle) => {
     });
 
     dispatch({
-        type: SEARCH_TRACK,
         payload: nextState
     });
 
@@ -25,31 +20,16 @@ export const searchTracksAction = (dispatch, tracksState, trackTitle) => {
             }
         })
          .then(res => {
-             const fetcedState = produce(tracksState, draft => {
+             const fetchedState = produce(tracksState, draft => {
                  draft.track_list = res.data.message.body.track_list;
                  draft.searching = false;
              });
 
              dispatch({
-                 type: SEARCH_TRACK,
-                 payload: fetcedState
+                 payload: fetchedState
              });
          })
          .catch(error => {
              console.log(error);
          });
-}
-
-export const searchTracksReducer = {
-    type: SEARCH_TRACK,
-    handler: (state, action) => {
-        return action.payload;
-    }
-}
-
-export const startSearchTracksReducer = {
-    type: START_SEARCHING,
-    handler: (state, action) => {
-        return action.payload;
-    }
 }

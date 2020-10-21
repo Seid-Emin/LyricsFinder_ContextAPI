@@ -1,10 +1,9 @@
 import React, { useReducer } from 'react';
-// import { useImmerReducer } from 'use-immer';
 
-import { addTrackAction, addTracksReducer } from './add-track.reducer';
-import { getTracksAction, getTracksReducer } from './get-tracks.reducer';
-import { deleteTrackAction, deleteTracksReducer } from './delete-track.reducer';
-import { searchTracksAction, searchTracksReducer, startSearchTracksReducer } from './search-track.reducer';
+import { addTrackAction } from './add-track.action';
+import { getTracksAction } from './get-tracks.action';
+import { deleteTrackAction } from './delete-track.action';
+import { searchTracksAction } from './search-track.action';
 
 const initialState = {
     track_list: [
@@ -371,22 +370,8 @@ const initialState = {
 
 export const TracksContext = React.createContext();
 
-const ACTION_HANDLERS = [
-    addTracksReducer,
-    deleteTracksReducer,
-    getTracksReducer,
-    searchTracksReducer,
-    startSearchTracksReducer
-].reduce((acc, reducer) => ({ ...acc, [reducer.type]: reducer.handler }), {});
-
-
 export function tracksReducer(state, action) {
-    const addTrack = ACTION_HANDLERS[action.type];
-
-    if (addTrack) {
-        return addTrack(state, action);
-    }
-    return;
+    return action.payload;
 }
 
 export const TracksProvider = ({ children }) => {
@@ -405,5 +390,3 @@ export const TracksProvider = ({ children }) => {
         </TracksContext.Provider>
     );
 }
-
-// export const Consumer = TracksContext.Consumer;
