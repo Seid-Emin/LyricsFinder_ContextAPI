@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
 import { Spinner } from '../layout/spinner';
 import { Track } from './track'
+
 
 export const Tracks = () => {
     const { tracksState: { track_list, heading, searching }, actions: { GetTracksAction } } = useContext(TracksContext);

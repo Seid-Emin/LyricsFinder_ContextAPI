@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, memo } from 'react';
 import { Link } from 'react-router-dom'
 import { TracksContext } from '../../core/store/tracks/+tracks-context';
 
-export const Track = ({ track: { artist_name, track_name, album_name, track_id } }) => {
+export const Track = memo(function Track({ track: { artist_name, track_name, album_name, track_id } }) {
     const { actions: { DeleteTrackAction } } = useContext(TracksContext);
+
+
     return (
         <div className='col-md-6'>
             <div className="card mb-4 shadow-sm">
@@ -27,4 +29,4 @@ export const Track = ({ track: { artist_name, track_name, album_name, track_id }
             </div>
         </div>
     );
-};
+});
